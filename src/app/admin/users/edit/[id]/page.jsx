@@ -1,31 +1,24 @@
-"use client"; // Asegúrate de marcar el componente como cliente
+"use client";
 
-import { useRouter } from "next/navigation"; // Usar 'next/navigation' para redirección
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import React from "react";
 
-function EditUser({ params,datUser }) {
-  const { id } = React.use(params); // Desempaqueta 'params' con React.use()
+export default function EditUser({ params }) {
+  const { id } = params; // Obtén el parámetro dinámico 'id'
   const router = useRouter();
   const [user, setUser] = useState(null);
   const { register, handleSubmit, setValue } = useForm();
 
-  console.log('datUser',datUser);
-  
   useEffect(() => {
-    console.log('use efect id',id);
-    
     if (id) {
       // Realiza la solicitud para obtener los datos del usuario por 'id'
       fetch(`/api/users/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          
           setUser(data.user);
           setValue("phone", data.user.phone); // Establece el valor en el formulario
           setValue("username", data.user.username); // Establece el valor en el formulario
-
         })
         .catch((error) => {
           console.error("Error al obtener los datos del usuario:", error);
@@ -34,8 +27,6 @@ function EditUser({ params,datUser }) {
   }, [id]);
 
   const onSubmit = (data) => {
-    console.log('onSubmit data',data);
-    
     // Enviar los cambios al backend
     fetch(`/api/users/${id}`, {
       method: "PUT",
@@ -104,5 +95,3 @@ function EditUser({ params,datUser }) {
     </div>
   );
 }
-
-export default EditUser;
