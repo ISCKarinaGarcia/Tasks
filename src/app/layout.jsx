@@ -21,16 +21,15 @@ export default function Layout({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Redirige al login si no estás en la página correcta
-    if (window.location.pathname !== '/auth/login') {
-      router.push('/auth/login');
+    // Evitar redirecciones en las rutas del administrador
+    if (!window.location.pathname.startsWith("/admin") && window.location.pathname !== "/auth/login") {
+      router.push("/auth/login");
     }
   }, [router]);
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* Renderiza las páginas hijas */}
         <main className="w-full min-h-screen bg-slate-50">{children}</main>
       </body>
     </html>
