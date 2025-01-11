@@ -1,6 +1,7 @@
-"use client"; // Asegura que el código se ejecute solo en el cliente
-import { useRouter } from 'next/navigation'; // Importa correctamente el router
-import { useEffect } from 'react';
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -17,20 +18,20 @@ const geistMono = localFont({
 });
 
 export default function Layout({ children }) {
-  const router = useRouter(); // Usar el router de Next.js para redirección
+  const router = useRouter();
 
   useEffect(() => {
-    // Redirigir a la ruta de login al cargar la página
-    router.push('/auth/login');
+    // Redirige al login si no estás en la página correcta
+    if (window.location.pathname !== '/auth/login') {
+      router.push('/auth/login');
+    }
   }, [router]);
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {/* Espacio para el contenido debajo de la Navbar */}
-        <main className="w-full min-h-screen bg-slate-50">
-          {children}
-        </main>
+        {/* Renderiza las páginas hijas */}
+        <main className="w-full min-h-screen bg-slate-50">{children}</main>
       </body>
     </html>
   );
